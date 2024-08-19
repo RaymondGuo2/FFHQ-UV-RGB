@@ -1,49 +1,38 @@
-# FFHQ-UV
+# FFHQ-UV RGB-Fitting Implementation
+
+This is an implementation of the RGB UV-texture map fitting from the original FFHQ-UV repository, which can be found [here](https://github.com/csbhr/FFHQ-UV). The relevant research paper is linked below:
 
 ### FFHQ-UV: Normalized Facial UV-Texture Dataset for 3D Face Reconstruction
 By [Haoran Bai](https://csbhr.github.io/), [Di Kang](https://scholar.google.com.hk/citations?user=2ztThPwAAAAJ&hl=zh-CN), Haoxian Zhang, [Jinshan Pan](https://jspan.github.io/), and [Linchao Bao](https://linchaobao.github.io/)  
 *In CVPR 2023 [[Paper: https://arxiv.org/abs/2211.13874]](https://arxiv.org/abs/2211.13874)*  
 *Rendering demos [[YouTube video]](https://youtu.be/dXFRJODJlNY)*
 
+The **FFHQ-UV** dataset comprises over 50,000 texture maps, derived from a multi-step methodology taking single 
+"in-the-wild" images as input and rendering complete UV-texture maps for head models. Using this FFHQ-UV dataset, a 
+GAN-based texture decoder was trained to simplify the single image to texture map process, with the further capacity to integrate with head 
+model .OBJ files. In this repository, the steps to successful reproduction are described, with further code implementation used to facilitate ease 
+of reconstruction for various applications.
 
+## Step 1: Install Dependencies
 
-![teaser](./demos/teaser.png)
+Create a conda environment for the project. Ensure that the Python version is specified at 3.7, which is crucial for managing the Tensorflow 
+dependency.
 
-**FFHQ-UV** is a large-scale facial UV-texture dataset that contains over **50,000** high-quality texture UV-maps with even illuminations, neutral expressions, and cleaned facial regions, which are desired characteristics for rendering realistic 3D face models under different lighting conditions.
+```
+conda create -n myenv python=3.7
+conda activate myenv
+```
 
-The dataset is derived from a large-scale face image dataset namely [FFHQ](https://github.com/NVlabs/ffhq-dataset), with the help of our fully automatic and robust UV-texture production pipeline. Our pipeline utilizes the recent advances in StyleGAN-based facial image editing approaches to generate multi-view normalized face images from single-image inputs. An elaborated UV-texture extraction, correction, and completion procedure is then applied to produce high-quality UV-maps from the normalized face images. Compared with existing UV-texture datasets, our dataset has more diverse and higher-quality texture maps.
-
-
-## Updates
-[2023-07-11] A solution for using our UV-texture maps on a [FLAME](https://flame.is.tue.mpg.de/) mesh is available [[here]](./README_flame2hifi3d.md).  
-[2023-07-10] A more detailed description and a new version of the RGB fitting process is available [[here]](./README_rgb_fitting.md).  
-[2023-07-10] A more detailed description of the facial UV-texture dataset creation pipeline is available [[here]](./README_create_uv_texture.md).  
-[2023-03-17] The source codes for adding eyeballs into head mesh are available [[here]](./README.md#add-eyeballs-into-head-mesh).  
-[2023-03-16] The project details of the FFHQ-UV dataset creation pipeline are released [[here]](./README_dataset.md#ffhq-uv-dataset-project-details).  
-[2023-03-16] The OneDrive download link was updated and the file structures have been reorganized.  
-[2023-02-28] This paper will appear in CVPR 2023.  
-[2023-01-19] The source codes are available, refer to [[here]](./README.md#run-source-codes) for quickly running.  
-[2022-12-16] The OneDrive download link is available.  
-[2022-12-16] The AWS CloudFront download link is offline.  
-[2022-12-06] The script for generating face images from latent codes is available.  
-[2022-12-02] The latent codes of the multi-view normalized face images are available.  
-[2022-12-02] The FFHQ-UV-Interpolate dataset is available.  
-[2022-12-01] The FFHQ-UV dataset is available [[here]](./README_dataset.md).  
-[2022-11-28] The paper is available [[here]](https://arxiv.org/abs/2211.13874).   
-
-
-## Dependencies
-- Linux + Anaconda
-- CUDA 10.0 + CUDNN 7.6.0
-- Python 3.7
+Install the following dependencies:
 - dlib: `pip install dlib`
 - PyTorch 1.7.1: `pip install torch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2`
 - TensorBoard: `pip install tensorboard`
 - TensorFlow 1.15.0: `pip install tensorflow-gpu==1.15.0`
-- MS Face API: `pip install --upgrade azure-cognitiveservices-vision-face`
 - Other packages: `pip install tqdm scikit-image opencv-python pillow imageio matplotlib mxnet Ninja google-auth google-auth-oauthlib click requests pyspng imageio-ffmpeg==0.4.3 scikit-learn torchdiffeq==0.0.1 flask kornia==0.2.0 lmdb psutil dominate rtree`
 - **Important: OpenCV's version needs to be higher than 4.5, otherwise it will not work well.**
-- PyTorch3D and Nvdiffrast:
+
+PyTorch3D and Nvdiffrast are important third party packages, and can be downloaded by executing these commands in the environment:
+
 ```
 mkdir thirdparty
 cd thirdparty
@@ -58,65 +47,142 @@ pip install -e pytorch3d
 pip install -e nvdiffrast
 ```
 
+One might find that pip installing outside of the third party directories might not work, so it may be worth entering each third party 
+directory separately, and executing `pip install -e .`. A likely source of the issue may lie in the compilation of [PyTorch3D](https://pytorch3d.
+org/) due to it being highly dependent on CUDA versions. If one is operating on Linux using the conda environment, a potential solution could be 
+found in `conda install pytorch3d -c pytorch3d`. Alternatively, one might try to install from source:
 
-## Get dataset
-- Please refer to this [[README]](./README_dataset.md) to download the dataset and learn more.
-
-
-## Run source codes
-
-### Download checkpoints and topology assets
-- Please refer to this [[README]](./README_ckp_topo.md) for details of checkpoints and topology assets.
-
-### Create FFHQ-UV dataset
-- Please refer to this [[README]](./README_create_uv_texture.md) for details of running facial UV-texture dataset creation pipeline.
-- **Microsoft Face API is not accessible for new users**, one can find an alternative API, or manually fill in the [json file](./examples/dataset_examples/attributes/01223.json) to avoid this step.
-- **We provide the detected facial attributes of the FFHQ dataset we used**, please find details from [here](https://github.com/csbhr/FFHQ-UV/blob/main/README_dataset.md#ffhq-uv-dataset-project-details).
-
-### RGB fitting
-- Please refer to this [[README]](./README_rgb_fitting.md) for details of running RGB fitting process.
-- We provide a new version of RGB fitting, where the FFHQ-UV-Interpolate dataset is used and the GAN-based texture decoder only generates facial textures. More details can found [here](./README_rgb_fitting.md#a-new-version-of-rgb-fitting).
-
-### Add eyeballs into head mesh
-- Prepare a head mesh with [HiFi3D++](https://github.com/czh-98/REALY) topology, which is without eyeballs.
-- Modify the configuration and then run the following script to add eyeballs into head mesh.
-```
-sh run_mesh_add_eyeball.sh  # Please refer to this script for detailed configuration
+```angular2html
+pip install "git+https://github.com/facebookresearch/pytorch3d.git"
 ```
 
+For more details on the installation of PyTorch3D, the link to the installation guide can be found [here](https://github.
+com/facebookresearch/pytorch3d/blob/main/INSTALL.md).
 
-## Generate a UV-texture map from a single facial image
+Given the dependencies involving PyTorch and Tensorflow and managing deprecated versions as was implemented in the original paper, it is crucial 
+to ensure that the right CUDA dependencies are established. In this implementation, a working version was achieved using CUDA 10.0.130 with 
+CUDNN 7.6.4.38. These environment variables must be set in the `.bashrc` file shown below (note that `export FORCE_CUDA=1` is used to explicitly 
+specify CUDA support for PyTorch3D).  
 
-There are two ways to generate a UV-texture map from a given facial image:
-1. Facial editing + texture unwrapping (Section 3.1 of the paper)
-2. RGB fitting (Section 4.2 of the paper)
+```angular2html
+export CUDA_HOME=/vol/cuda/10.0.130-cudnn7.6.4.38
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+export FORCE_CUDA=1
+```
 
-#### 1. UV-texture map from: facial editing + texture unwrapping
-- The FFHQ-UV dataset is created from the FFHQ dataset in this way.
-- See source codes of [facial UV-texture dataset creation pipeline](./README.md#create-ffhq-uv-dataset),  which including GAN inversion, attribute detection, StyleGAN-based editing, and texture unwrapping steps.
-- Advantages:
-  - The generated textures are directly extracted from facial images, which are detailed and with high-quality.
-- Disadvantages:
-  - The GAN inversion step would be failed for some samples.
-  - The attribute detection step requires the Microsoft Face API, which is no longer accessible.
-  - The StyleGAN-based editing would change the ID of the faces, resulting in textures with low-fidelity.
+## Step 2: Download Checkpoints and Topology Assets
+The checkpoints and topology assets must be downloaded in order to run the scripts. For details on how to download and organise these files, refer 
+to the [[README]](./README_ckp_topo.md) by Bai et al. Put simply, new directories called `checkpoints` and `topo_assets` must be created in the 
+root directory containing their respective files.
 
-#### 2. UV-texture map from: RGB fitting
-- This is the proposed 3D face reconstruction algorithm, which uses FFHQ-UV dataset to train a nonlinear texture basis.
-- See source codes of [RGB fitting](./README.md#rgb-fitting).
-- Advantages:
-  - The generated textures are fitted based on the supervision of input faces, which are with high-fidelity.
-- Disadvantages:
-  - The textures are generated by a GAN-based texture decoder, sometimes with less detail than texture maps in the FFHQ-UV dataset. This is mainly due to the limitations of the nonlinear texture basis design and training. 
-  - Future work will improve the generation capabilities of the nonlinear texture basis, in order to take full advantage of the high-quality and detailed UV texture maps in the FFHQ-UV dataset.
+## Step 3: Load Input Images
+The final preparation step is to load the images ready for fitting. Note that this must be specified in either '.jpg', '.jpeg' or '.png' format. 
+These need to be placed in a directory structure like so, whereby the images (can be any amount) must be placed inside the inputs folder, but not 
+inside the `processed_data` and `processed_data_vis` folders.
 
+```
+|--FFHQ-UV-RGB  
+    |--data 
+        |--inputs
+            |--processed_data
+            |--processed_data_vis
+            |--image1.png
+            |--image2.jpg
+            |--image3.jpeg
+            |--image4.jpg
+            |-- ...
+```
 
+Since some images may hold potential metadata affecting the face detection algorithm in the code, it is advised to preprocess these images, which 
+can be done automatically by executing these commands.
 
-## Using our UV-texture maps on a FLAME mesh
-- We provide a solution for using our UV-texture maps on a [FLAME](https://flame.is.tue.mpg.de/) mesh, please refer to this [[README]](./README_flame2hifi3d.md) for details.
+```angular2html
+cd utils
+python process_image.py
+```
+
+After the first time running the source code, it may be desired to clear the files in the input and output folders ready for another batch (or 
+single) image. A simple script in the utils folder can be run to do so:
+
+```angular2html
+python clear_data.py
+```
+
+## Step 3: Run Source Codes
+
+With the conda environment activated, CUDA environment variables sorted, checkpoints and topology assets downloaded, and input images established 
+and processed, the reconstruction code can be run to obtain the outputs. Simply enter back into the root directory, and execute:
+
+```angular2html
+sh run_rgb_fitting.sh
+```
+This will run the entire pipeline altogether, including the fitting of eyeballs.
+
+## Step 4: Visualising the Output
+
+Once the model has completed its run, the final output is ready to visualise. The results of each image will be stored in their own separate 
+folders in the output, with 7 crucial files to notice:
+
+```angular2html
+# Head mesh and texture
+stage3_mesh_id.obj
+stage3_mesh.mtl
+stage3_uv.png
+
+# Eye mesh and texture
+L_ball.obj
+R_ball.obj
+eye_ball_tex.mtl
+eye_ball_tex.png
+```
+
+There are two ways to visualise these results as a reconstructed head. The first is to install MeshLab, and load all three OBJ files, which should 
+automatically import the texture through material files. The second is to use Blender, which is slightly more complicated, but offers more 
+flexibility in applying to further applications such as loading the model into Unity. The steps for establishing the Blender processing pipeline 
+are described below.
+
+### Blender Pipeline Steps
+
+**Step 1**
+Ensure that Blender has been downloaded and you can access the command line tool. This can be checked simply by typing `blender` in the console. 
+In some cases, it may not return a value even if Blender has been downloaded. In that case, you can either export the path directly into the 
+command line or adding it to the end of the `.bashrc` file. An example for MacOS is shown, but can be tweaked for other OS.
+
+```angular2html
+export PATH=$PATH:/Applications/Blender.app/Contents/MacOS
+```
+
+**Step 2**
+After this, another path variable called `FILE_DIR` must be exported, serving as an argument to the python blender command pointing towards the 
+output directory that you want to blend. For example, if one wants to apply the head model for LeBron James in the output directory `lebron_james`, the below 
+command is an example:
+
+```angular2html
+export FILE_DIR="/Users/rqg/Desktop/FFHQ-UV-RGB/data/outputs/lebron_james"
+```
+Note two things of crucial importance. Firstly, make sure to export the absolute and not relative path, and secondly, do not add `"/"` to the end 
+of the path. 
+
+**Step 3**
+Once `FILE_DIR` has been exported, you can finally run the command below by entering into the utils directory and executing blend.py 
+through Blender (4.0???):
+
+```angular2html
+blender --background --python blend.py
+```
+
+**Step 4**
+
+Enter into the output directory, and there should be a `.blend` file named after your directory (e.g. `lebron_james.blend`). Click into the file 
+provided you have a local version of Blender, and a rendered model should be available to see in the main view. If you are unable to see the 
+texture colouring, simply click the Material Preview sphere for Viewport shading, or go to the shading tab.
 
 
 ## Citation
+
+This reproduction uses the code [here](https://github.com/csbhr/FFHQ-UV), and is based off the paper cited below.
+
 ```
 @InProceedings{Bai_2023_CVPR,
   title={FFHQ-UV: Normalized Facial UV-Texture Dataset for 3D Face Reconstruction},
