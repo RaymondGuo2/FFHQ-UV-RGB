@@ -27,11 +27,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--fitted_results_dir',
                         type=str,
-                        default='../data/fitting_examples/outputs',
+                        default='../data/outputs',
                         help='directory of the fitted results')
     parser.add_argument('--mesh_dir',
                         type=str,
-                        default='../data/fitting_examples/outputs-fitted_mesh',
+                        default='../data/outputs-fitted_mesh',
                         help='directory of copied meshes')
     args = parser.parse_args()
 
