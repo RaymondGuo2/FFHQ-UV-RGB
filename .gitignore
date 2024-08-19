@@ -1,0 +1,13 @@
+*/.DS_Store
+.vscode
+.idea
+*cache*
+/checkpoints/*
+/topo_assets/*
+!/checkpoints/download and put here
+!/topo_assets/download and put here
+/data/inputs/processed_data/*
+/data/inputs/processed_data_vis/*
+/data/outputs/*
+/debug_data
+/debug*
