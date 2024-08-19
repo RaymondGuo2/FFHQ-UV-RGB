@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 from PIL import Image
+import os
 
 def detect_and_crop_head(input_img_path, output_image_path, factor=1.7, target_resolution=(1024, 1024)):
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -30,7 +31,7 @@ def detect_and_crop_head(input_img_path, output_image_path, factor=1.7, target_r
 
         resized_head_pil = Image.fromarray(cv2.cvtColor(resized_head, cv2.COLOR_BGR2RGB))
         resized_head_pil.save(output_image_path)
-        print("Cropped and resized head saved successfully")
+        print(f"Cropped, resized, and saved {os.path.basename(output_image_path)} successfully")
     else:
         print("No faces detected in the input image.")
 

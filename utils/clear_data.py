@@ -8,8 +8,8 @@ def remove_and_renew(dir):
 
 def main():
 
-    input_dirs = ['./data/inputs/processed_data', './data/inputs/processed_data_vis']
-    output_dir = './data/outputs'
+    input_dirs = ['../data/inputs/processed_data', '../data/inputs/processed_data_vis']
+    output_dir = '../data/outputs'
     
     for dir in input_dirs:
         remove_and_renew(dir)
