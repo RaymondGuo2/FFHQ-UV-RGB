@@ -5,7 +5,16 @@ from process_exif import remove_exif
 
 
 def main(path):
-    for file in os.listdir(path):
+    for f in os.listdir(path):
+        file_name, file_format = os.path.splitext(f)
+        file = file_name + file_format.lower()
+        
+        original_file = os.path.join(path, f)
+        new_file = os.path.join(path, file)
+
+        if f != file:
+            os.rename(original_file, new_file)
+
         if file.endswith(".jpg") or file.endswith(".jpeg") or file.endswith(".png"):
             file_path = os.path.join(path, file)
             remove_exif(file_path)
