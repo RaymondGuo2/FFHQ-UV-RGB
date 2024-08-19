@@ -10,8 +10,8 @@ uptime
 # checkpoints_dir: the directory of the used checkpoints
 # topo_assets_dir: the directory of the topo assets, e.g., 3DMM, masks, etc.
 #################################################################
-input_dir=../rgb2mesh/inputs
-output_dir=../rgb2mesh/outputs
+input_dir=../data/inputs
+output_dir=../data/outputs
 checkpoints_dir=../checkpoints
 topo_assets_dir=../topo_assets
 
@@ -50,6 +50,15 @@ mesh_dir=$(find ${output_dir} -mindepth 1 -maxdepth 1 -type d | head -n 1)
 python run_mesh_add_eyeball.py \
     --mesh_path ${mesh_dir}/stage3_mesh_id.obj
 
+
+
+# ###################### Step 3. Obtain blend file ################
+# # Blend the outputs
+# #################################################################
+# cd ..
+# export PATH=$PATH:/Applications/Blender.app/Contents/MacOS
+# export FILE_DIR="/Users/raymondguo/Desktop/meshesFFHQ/outputs/015309"
+# blender --background --python blend_copy.py
 
 
 
