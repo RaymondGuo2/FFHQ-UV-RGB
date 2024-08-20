@@ -4,10 +4,13 @@
 *cache*
 /checkpoints/*
 /topo_assets/*
+/fitting_realy/*
+/region_align_save/*
 !/checkpoints/download and put here
 !/topo_assets/download and put here
 /data/inputs/processed_data/*
 /data/inputs/processed_data_vis/*
 /data/outputs/*
+/archive/*
 /debug_data
 /debug*

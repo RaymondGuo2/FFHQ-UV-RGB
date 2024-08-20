@@ -1,0 +1,1 @@
+python main.py --REALY_HIFI3D_keypoints ./data/REALY_HIFI3D_keypoints/ --REALY_scan_region ./data/REALY_scan_region/ --prediction ../individualproject/FFHQ-UV/fitting_realy/outputs_fitted_mesh/ --template_topology HIFI3D --scale_path ./data/metrical_scale.txt --save ../individualproject/FFHQ-UV
