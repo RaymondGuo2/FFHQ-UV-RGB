@@ -1,15 +1,16 @@
 # Download
 
+To download the files, one can choose to download from either of these sources.
+
 - Baidu Netdisk: [download link](https://pan.baidu.com/s/1BbvlTuhlD_PEtT3QZ_ja2g) (extract code: 5wbi).
 - OneDrive: [download link](https://t1h0q-my.sharepoint.com/:f:/g/personal/csbhr_t1h0q_onmicrosoft_com/Em2_9wf4ZD9Bm2JVbnBZKn0B8WuFStiMHu07IYCPRLy7Hw?e=dNwuVW)
-
 
 # The checkpoints used in FFHQ-UV project
 
 ## File structure
 
 ```
-|--FFHQ-UV  
+|--FFHQ-UV-RGB  
     |--checkpoints 
         |--arcface_model
             |--ms1mv3_arcface_r50_fp16_backbone.pth
@@ -60,13 +61,12 @@
 - vgg_model: VGG backbone, download from [this link](https://nvlabs-fi-cdn.nvidia.com/stylegan2-ada-pytorch/pretrained/metrics/vgg16.pt).
 
 
-
 # The topology assets used in FFHQ-UV project
 
 ## File structure
 
 ```
-|--FFHQ-UV  
+|--FFHQ-UV-RGB  
     |--topo_assets 
         |--center_face_mask.png
         |--hair_mask.png
