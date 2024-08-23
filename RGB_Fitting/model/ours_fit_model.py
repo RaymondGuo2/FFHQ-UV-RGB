@@ -2,7 +2,6 @@ import os
 import torch
 import numpy as np
 import torch.nn.functional as F
-
 from .hifi3dpp import ParametricFaceModel
 from .renderer_nvdiffrast import MeshRenderer
 from . import uvtex_spherical_fixshape_fitter, uvtex_wspace_shape_joint_fitter

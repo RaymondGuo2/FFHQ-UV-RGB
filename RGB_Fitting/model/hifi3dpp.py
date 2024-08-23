@@ -102,9 +102,9 @@ class ParametricFaceModel(nn.Module):
         self.camera_distance = camera_distance
 
         # the dims of coeffs
-        self.id_dims = self.id_base.shape[1]
-        self.exp_dims = self.exp_base.shape[1]
-        self.tex_dims = self.tex_base.shape[1]
+        self.id_dims = self.id_base.shape[1]  # 532
+        self.exp_dims = self.exp_base.shape[1] # 45
+        self.tex_dims = self.tex_base.shape[1] # 439
 
         # load unwrap info from mat file
         unwrap_info = loadmat(unwrap_info_file)
