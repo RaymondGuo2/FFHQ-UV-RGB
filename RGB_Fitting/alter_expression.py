@@ -2,6 +2,7 @@ import torch
 from model.hifi3dpp import ParametricFaceModel
 import os
 from utils.mesh_utils import write_mesh_obj
+import argparse
 
 # Non-class implementation of split_coeff found in hifi3dpp.py
 def split_coeff(coeffs):
@@ -48,20 +49,31 @@ def save_mesh(path, mesh_name, coeffs, facemodel):
     write_mesh_obj(mesh_info=exp_mesh_info, file_path=exp_mesh_path)
     return exp_mesh_path
 
-if __name__ == '__main__':
-    # Load the coefficients file
-    coeffs = torch.load('../coeff_testing_framework/stage3_coeffs.pt')
-    # Manipulate a desired expression basis
+def main(args):
+    # Setup for chnaging expression basis coefficient values
+    coeffs = torch.load(args.model_coeffs_path)
     coeffs_dict = split_coeff(coeffs)
-    coeffs_dict['exp'][0, 0] += 0.5
+    if args.exp_component < 1 or args.exp_component > 45:
+        print("The expression component must be between 1 and 45")
+        return
+    if args.change_value < -2.0 or args.change_value > 2.0:
+        print("The amount changed must be between -2 and 2")
+        return
+    coeffs_dict['exp'][0, args.exp_component - 1] += args.change_value
 
     # Initialise the parametric model for expression alteration
-    fm_model_path = '../topo_assets/hifi3dpp_model_info.mat'
-    unwrap_info_path = '../topo_assets/unwrap_1024_info.mat'
-    face_model = ParametricFaceModel(fm_model_file=fm_model_path, unwrap_info_file=unwrap_info_path)
-    
-    # Save mesh
-    output_path = '../coeff_testing_framework'
-    mesh_name = 'exp1_1.obj'
-    saved_meshes = save_mesh(path=output_path, mesh_name=mesh_name, coeffs=coeffs, facemodel=face_model)
-    print(f"Saved mesh files: {saved_meshes}")
+    face_model = ParametricFaceModel(fm_model_file='../topo_assets/hifi3dpp_model_info.mat', unwrap_info_file='../topo_assets/unwrap_1024_info.mat')
+    output_path = args.output_path
+    mesh_name = str(args.exp_component) + "_" + str(args.change_value) + ".obj"
+    saved_mesh = save_mesh(path=output_path, mesh_name=mesh_name, coeffs=coeffs, facemodel=face_model)
+    print(f"Saved mesh files: {saved_mesh}")
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model_coeffs_path', type=str, default='../coeff_testing_framework/stage3_coeffs.pt', help="Provide the path to the outputted estimated coefficients in .pt format")
+    parser.add_argument('exp_component', type=int, help="Provide a component from 1 to 45 to modify")
+    parser.add_argument('change_value', type=float, help="Provide a float value from -2 to 2 to alter the component expression")
+    parser.add_argument('--output_path', type=str, default='../coeff_testing_framework', help="Specify where to output the completed obj")    
+    args = parser.parse_args()
+    main(args)
