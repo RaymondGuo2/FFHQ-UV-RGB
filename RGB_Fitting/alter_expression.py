@@ -72,8 +72,8 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_coeffs_path', type=str, default='../coeff_testing_framework/stage3_coeffs.pt', help="Provide the path to the outputted estimated coefficients in .pt format")
-    parser.add_argument('exp_component', type=int, help="Provide a component from 1 to 45 to modify")
-    parser.add_argument('change_value', type=float, help="Provide a float value from -2 to 2 to alter the component expression")
+    parser.add_argument('--exp_component', type=int, help="Provide a component from 1 to 45 to modify")
+    parser.add_argument('--change_value', type=float, help="Provide a float value from -2 to 2 to alter the component expression")
     parser.add_argument('--output_path', type=str, default='../coeff_testing_framework', help="Specify where to output the completed obj")    
     args = parser.parse_args()
     main(args)
