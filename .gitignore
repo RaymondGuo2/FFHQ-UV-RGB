@@ -10,6 +10,7 @@
 !/topo_assets/download and put here
 /data/inputs/processed_data/*
 /data/inputs/processed_data_vis/*
+/data/inputs/*
 /data/outputs/*
 /coeff_testing_framework/*
 /coeff_testing/*
