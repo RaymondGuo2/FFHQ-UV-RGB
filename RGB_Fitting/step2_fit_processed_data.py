@@ -1,4 +1,4 @@
- import os
+import os
 import time
 import argparse
 import torch
@@ -62,6 +62,10 @@ if __name__ == '__main__':
         tic = time.time()
         fit_model.fitting(input_data=input_data, logger=logger)
         toc = time.time()
+
+        path_to_output = '../data/outputs'
+        with open(os.path.join(path_to_output, f'{basename}.txt'), 'a') as f:
+            f.write(f'{toc - tic:.4f}\n')
 
         logger.write_txt_log(f'Fit image: {fn} done, took {toc - tic:.4f} seconds.')
         logger.close()

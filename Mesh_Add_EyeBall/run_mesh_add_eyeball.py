@@ -7,6 +7,7 @@ import scipy.sparse
 import scipy.sparse.linalg
 import scipy.spatial
 import argparse
+import time
 
 eye_half_vtx_idx = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
@@ -322,11 +323,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     save_dir = os.path.dirname(args.mesh_path)
+    print(save_dir)
     L_ball_mesh_path = './eye_ball_assets/eyeLeft_mesh_move.obj'
     R_ball_mesh_path = './eye_ball_assets/eyeRight_mesh_move.obj'
     ball_tex_path = './eye_ball_assets/eye_ball_tex.png'
     ball_mtl_path = './eye_ball_assets/eye_ball_tex.mtl'
     
+    tic = time.time()
+
     head_mesh = obj_read_quad_tri(args.mesh_path)
     L_ball_mesh = obj_read_quad_tri(L_ball_mesh_path)
     R_ball_mesh = obj_read_quad_tri(R_ball_mesh_path)
@@ -353,4 +357,9 @@ if __name__ == '__main__':
                         fvt=R_ball_mesh['fvt'],
                         vn=R_vn,
                         fvn=R_ball_mesh['fv'])
+    
+    toc = time.time()
+
+    with open(f'{save_dir}.txt', 'a') as f:
+        f.write(f'{toc - tic:.4f}\n')
     

@@ -11,6 +11,8 @@
 /data/inputs/processed_data/*
 /data/inputs/processed_data_vis/*
 /data/outputs/*
+/coeff_testing_framework/*
+/coeff_testing/*
 /archive/*
 /debug_data
 /debug*

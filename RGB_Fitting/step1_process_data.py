@@ -68,3 +68,7 @@ if __name__ == '__main__':
 
         toc = time.time()
         print(f'Process image: {fn} done, took {toc - tic:.4f} seconds.')
+
+        path_to_output = '../data/outputs'
+        with open(os.path.join(path_to_output, f'{basename}.txt'), 'w') as f:
+            f.write(f'{toc - tic:.4f}\n')

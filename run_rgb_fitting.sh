@@ -49,11 +49,11 @@ python step2_fit_processed_data.py \
 # Save the output results in directory 'render_files'
 #################################################################
 cd ../Mesh_Add_EyeBall
-mesh_dir=$(find ${output_dir} -mindepth 1 -maxdepth 1 -type d | head -n 1)
 
-python run_mesh_add_eyeball.py \
-    --mesh_path ${mesh_dir}/stage3_mesh_id.obj
-
+for mesh_dir in $(find ${output_dir} -mindepth 1 -maxdepth 1 -type d); do
+    python run_mesh_add_eyeball.py \
+        --mesh_path ${mesh_dir}/stage3_mesh_id.obj
+done
 
 
 # ###################### Step 3. Obtain blend file ################

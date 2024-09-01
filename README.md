@@ -47,9 +47,7 @@ pip install -e pytorch3d
 pip install -e nvdiffrast
 ```
 
-One might find that pip installing outside of the third party directories might not work, so it may be worth entering each third party 
-directory separately, and executing `pip install -e .`. A likely source of the issue may lie in the compilation of [PyTorch3D](https://pytorch3d.
-org/) due to it being highly dependent on CUDA versions. If one is operating on Linux using the conda environment, a potential solution could be 
+One might find that pip installing outside of the third party directories might not work, so it may be worth entering each third party directory separately, and executing `pip install -e .`. A likely source of the issue may lie in the compilation of [PyTorch3D](https://pytorch3d.org/) due to it being highly dependent on CUDA versions. If one is operating on Linux using the conda environment, a potential solution could be 
 found in `conda install pytorch3d -c pytorch3d`. Alternatively, one might try to install from source:
 
 ```angular2html
