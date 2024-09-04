@@ -8,12 +8,13 @@
 /region_align_save/*
 !/checkpoints/download and put here
 !/topo_assets/download and put here
+/data/inputs/*
+/archive/*
 /data/inputs/processed_data/*
 /data/inputs/processed_data_vis/*
-/data/inputs/*
 /data/outputs/*
-/coeff_testing_framework/*
 /coeff_testing/*
+/coeff_testing_framework/*
 /archive/*
 /debug_data
 /debug*
