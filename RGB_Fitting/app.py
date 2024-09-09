@@ -34,7 +34,7 @@ def generate_mesh():
 
     return jsonify({"saved_mesh": saved_mesh})
 
-
+# Non-class implementation of split_coeff found in hifi3dpp.py
 def split_coeff(coeffs):
     '''
     Split the estimated coeffs.

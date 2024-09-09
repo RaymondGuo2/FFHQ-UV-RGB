@@ -1,3 +1,5 @@
+# This code was taken directly from the original github implementation of FFHQ-UV (Bai et al. (2023)), which can be found here: https://github.com/csbhr/FFHQ-UV
+
 from .iresnet import iresnet18, iresnet34, iresnet50, iresnet100, iresnet200
 from .mobilefacenet import get_mbf
 

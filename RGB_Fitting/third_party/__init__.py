@@ -1,3 +1,5 @@
+# This code was taken directly from the original github implementation of FFHQ-UV (Bai et al. (2023)), which can be found here: https://github.com/csbhr/FFHQ-UV
+
 from .mtcnn.detect_face_with_mtcnn import load_mtcnn_graph, detect_faceAPI
 from .landmark68.detect_lm68 import load_lm_graph, detect_68p
 from .face_parsing.face_parsing import load_face_parsing, get_seg_img
